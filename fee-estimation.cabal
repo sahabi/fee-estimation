@@ -29,6 +29,7 @@ executable fee-estimation-exe
                      , servant
                      , servant-client
                      , aeson
+
   default-language:    Haskell2010
 
 test-suite fee-estimation-test

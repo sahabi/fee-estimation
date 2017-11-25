@@ -21,6 +21,13 @@
   (major1) == 1 && (major2) <  1 || \
   (major1) == 1 && (major2) == 1 && (minor) <= 2)
 
+/* package bitcoin-api-0.12.1 */
+#define VERSION_bitcoin_api "0.12.1"
+#define MIN_VERSION_bitcoin_api(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  12 || \
+  (major1) == 0 && (major2) == 12 && (minor) <= 1)
+
 /* package http-conduit-2.2.3.2 */
 #define VERSION_http_conduit "2.2.3.2"
 #define MIN_VERSION_http_conduit(major1,major2,minor) (\

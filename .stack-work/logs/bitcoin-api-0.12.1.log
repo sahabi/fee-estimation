@@ -1,0 +1,36 @@
+Configuring bitcoin-api-0.12.1...
+Building bitcoin-api-0.12.1...
+Preprocessing library bitcoin-api-0.12.1...
+[ 1 of 10] Compiling Network.Bitcoin.Api.Types.UnspentTransaction ( src/Network/Bitcoin/Api/Types/UnspentTransaction.hs, .stack-work/dist/x86_64-linux/Cabal-1.24.2.0/build/Network/Bitcoin/Api/Types/UnspentTransaction.o )
+
+src/Network/Bitcoin/Api/Types/UnspentTransaction.hs:11:1-45: warning: [-Wunused-imports]
+    The import of ‘Data.Word’ is redundant
+      except perhaps to import instances from ‘Data.Word’
+    To import instances alone, use: import Data.Word()
+
+src/Network/Bitcoin/Api/Types/UnspentTransaction.hs:14:1-33: warning: [-Wunused-imports]
+    The import of ‘Data.Aeson.Types’ is redundant
+      except perhaps to import instances from ‘Data.Aeson.Types’
+    To import instances alone, use: import Data.Aeson.Types()
+[ 2 of 10] Compiling Network.Bitcoin.Api.Types ( src/Network/Bitcoin/Api/Types.hs, .stack-work/dist/x86_64-linux/Cabal-1.24.2.0/build/Network/Bitcoin/Api/Types.o )
+[ 3 of 10] Compiling Network.Bitcoin.Api.Internal ( src/Network/Bitcoin/Api/Internal.hs, .stack-work/dist/x86_64-linux/Cabal-1.24.2.0/build/Network/Bitcoin/Api/Internal.o )
+[ 4 of 10] Compiling Network.Bitcoin.Api.Misc ( src/Network/Bitcoin/Api/Misc.hs, .stack-work/dist/x86_64-linux/Cabal-1.24.2.0/build/Network/Bitcoin/Api/Misc.o )
+[ 5 of 10] Compiling Network.Bitcoin.Api.Wallet ( src/Network/Bitcoin/Api/Wallet.hs, .stack-work/dist/x86_64-linux/Cabal-1.24.2.0/build/Network/Bitcoin/Api/Wallet.o )
+
+src/Network/Bitcoin/Api/Wallet.hs:9:1-66: warning: [-Wunused-imports]
+    The qualified import of ‘Data.Text’ is redundant
+      except perhaps to import instances from ‘Data.Text’
+    To import instances alone, use: import Data.Text()
+[ 6 of 10] Compiling Network.Bitcoin.Api.Dump ( src/Network/Bitcoin/Api/Dump.hs, .stack-work/dist/x86_64-linux/Cabal-1.24.2.0/build/Network/Bitcoin/Api/Dump.o )
+
+src/Network/Bitcoin/Api/Dump.hs:5:1-58: warning: [-Wunused-imports]
+    The import of ‘Data.Aeson.Types’ is redundant
+      except perhaps to import instances from ‘Data.Aeson.Types’
+    To import instances alone, use: import Data.Aeson.Types()
+[ 7 of 10] Compiling Network.Bitcoin.Api.Client ( src/Network/Bitcoin/Api/Client.hs, .stack-work/dist/x86_64-linux/Cabal-1.24.2.0/build/Network/Bitcoin/Api/Client.o )
+[ 8 of 10] Compiling Network.Bitcoin.Api.Blockchain ( src/Network/Bitcoin/Api/Blockchain.hs, .stack-work/dist/x86_64-linux/Cabal-1.24.2.0/build/Network/Bitcoin/Api/Blockchain.o )
+[ 9 of 10] Compiling Network.Bitcoin.Api.Mining ( src/Network/Bitcoin/Api/Mining.hs, .stack-work/dist/x86_64-linux/Cabal-1.24.2.0/build/Network/Bitcoin/Api/Mining.o )
+[10 of 10] Compiling Network.Bitcoin.Api.Transaction ( src/Network/Bitcoin/Api/Transaction.hs, .stack-work/dist/x86_64-linux/Cabal-1.24.2.0/build/Network/Bitcoin/Api/Transaction.o )
+Installing library in
+/home/sahabi/.stack/snapshots/x86_64-linux/lts-9.14/8.0.2/lib/x86_64-linux-ghc-8.0.2/bitcoin-api-0.12.1-Hskni5xf6woKFZCX1DwUfi
+Registering bitcoin-api-0.12.1...

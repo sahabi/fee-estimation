@@ -1,0 +1,23 @@
+Configuring base58string-0.10.0...
+Building base58string-0.10.0...
+Preprocessing library base58string-0.10.0...
+[1 of 2] Compiling Data.Base58String ( src/Data/Base58String.hs, .stack-work/dist/x86_64-linux/Cabal-1.24.2.0/build/Data/Base58String.o )
+
+src/Data/Base58String.hs:10:1-52: warning: [-Wunused-imports]
+    The import of ‘pure’ from module ‘Control.Applicative’ is redundant
+[2 of 2] Compiling Data.Base58String.Bitcoin ( src/Data/Base58String/Bitcoin.hs, .stack-work/dist/x86_64-linux/Cabal-1.24.2.0/build/Data/Base58String/Bitcoin.o )
+
+src/Data/Base58String/Bitcoin.hs:(29,1)-(30,70): warning: [-Worphans]
+    Orphan instance: instance FromJSON B58.Base58String
+    To avoid this
+        move the instance declaration to the module of the class or of the type, or
+        wrap the type with a newtype and declare the instance on the new type.
+
+src/Data/Base58String/Bitcoin.hs:(32,1)-(33,25): warning: [-Worphans]
+    Orphan instance: instance ToJSON B58.Base58String
+    To avoid this
+        move the instance declaration to the module of the class or of the type, or
+        wrap the type with a newtype and declare the instance on the new type.
+Installing library in
+/home/sahabi/.stack/snapshots/x86_64-linux/lts-9.14/8.0.2/lib/x86_64-linux-ghc-8.0.2/base58string-0.10.0-9Y6UOfdWvJODjgI1MkoWLl
+Registering base58string-0.10.0...

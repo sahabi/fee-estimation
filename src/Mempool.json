@@ -1,0 +1,36 @@
+{
+  "b104586f229e330caf42c475fd52684e9eb5e2d02f0fcd216d9554c5347b0873": {
+    "size": 485,
+    "fee": 0.00009700,
+    "modifiedfee": 0.00009700,
+    "time": 1479423635,
+    "height": 439431,
+    "startingpriority": 15327081.81818182,
+    "currentpriority": 21536936.36363636,
+    "descendantcount": 1,
+    "descendantsize": 485,
+    "descendantfees": 9700,
+    "ancestorcount": 1,
+    "ancestorsize": 485,
+    "ancestorfees": 9700,
+    "depends": [
+    ]
+  },
+  "094f7dcbc7494510d4daeceb2941ed73b1bd011bf527f6c3b7c897fee85c11d4": {
+    "size": 554,
+    "fee": 0.00005540,
+    "modifiedfee": 0.00005540,
+    "time": 1479423327,
+    "height": 439430,
+    "startingpriority": 85074.91071428571,
+    "currentpriority": 3497174.4375,
+    "descendantcount": 1,
+    "descendantsize": 554,
+    "descendantfees": 5540,
+    "ancestorcount": 1,
+    "ancestorsize": 554,
+    "ancestorfees": 5540,
+    "depends": [
+    ]
+  }
+}

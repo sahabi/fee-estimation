@@ -29,6 +29,7 @@ executable fee-estimation-exe
                      , servant
                      , servant-client
                      , aeson
+                     , postgresql-simple
 
   default-language:    Haskell2010
 

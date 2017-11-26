@@ -28,6 +28,13 @@
   (major1) == 2 && (major2) <  2 || \
   (major1) == 2 && (major2) == 2 && (minor) <= 3)
 
+/* package postgresql-simple-0.5.3.0 */
+#define VERSION_postgresql_simple "0.5.3.0"
+#define MIN_VERSION_postgresql_simple(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  5 || \
+  (major1) == 0 && (major2) == 5 && (minor) <= 3)
+
 /* package servant-0.11 */
 #define VERSION_servant "0.11"
 #define MIN_VERSION_servant(major1,major2,minor) (\

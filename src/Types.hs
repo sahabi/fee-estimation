@@ -61,11 +61,6 @@ makeTxEntry :: TxEntry_ -> TxEntry
 makeTxEntry x = TxEntry (txid_ x) (txsize_ x) (modifiedfee_ x) (time_ x) (height_ x)
                 $ (modifiedfee_ x) / (fromIntegral (txsize_ x))
 
-data Block = Block { tx :: [TxID]
-                   , height :: Height 
-                   } deriving (Show, Generic)
-
-instance FromJSON Block
 
 newtype Counters = Counters [Counter] deriving (Show)
 
@@ -88,7 +83,6 @@ data FeeRange = FeeRange { min :: BTC
 data TargetRange = TargetRange { min :: Height
                                , max :: Height
                                } deriving (Show, Generic)
-
 
 data FeeInfo = FeeInfo {
     short  :: FeeStat,

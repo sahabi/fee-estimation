@@ -1,15 +1,23 @@
+{-# LANGUAGE DuplicateRecordFields #-}
 module Estimator where
 
+import Test
 import qualified Types as T
-import Block
+import Block as B
 import MemPool
 -- | from the list of txs of the current mempool and the latest 
 --   block generate a list of confirmed transactions
-getConfTx :: T.RawMemPool -> T.Block -> [T.TxID]
-getConfTx memp b = filter (onlyConf b) tx where tx = [ T.txid i | i <- memp ] 
+getConfTx :: B.Block -> T.RawMemPool -> T.RawMemPool
+getConfTx b = filter ((isConf b) . T.txid) 
 
-onlyConf :: T.Block -> T.TxID -> Bool
-onlyConf b t = t `elem` (T.tx b)
+getNoConfTx :: B.Block -> T.RawMemPool ->  T.RawMemPool
+getNoConfTx b = filter (not . (isConf b) . T.txid) 
+
+fst3 :: (a, b, c) -> a
+fst3 (x, _, _) = x
+
+isConf :: B.Block -> T.TxID -> Bool
+isConf b t = t `elem` (B.tx b)
 
 -- | This is the estimator algorithm based on 0.14
 --estimator14 :: T.Target -> IO (T.FeeRate)
@@ -18,8 +26,9 @@ onlyConf b t = t `elem` (T.tx b)
 --getHistory :: T.Period -> IO ([Tx])
 --getHistory (T.Period s e) =
 
-run :: IO [T.TxID]
+run :: IO (T.RawMemPool, T.RawMemPool)
 run = do
-          mempool <- getRawMemPool
+          mempool <- getRawMemPoolJ
           block <- getBestBlock  
-          return (getConfTx mempool block) 
+          case mempool of
+            Right mem -> return (getConfTx block mem, getNoConfTx block mem) 

@@ -19,6 +19,7 @@ import qualified Data.HashMap.Strict       as HM
 import qualified Data.ByteString.Lazy      as BL
 import qualified Data.Text                 as T
 import qualified Client as C
+import qualified ChainQuery as CQ
 
 data RpcResult a = RpcResultError RpcError
                  | RpcResultOk a
@@ -63,6 +64,8 @@ callRaw client method params = do
                            , "params"  .= params
                            , "id"      .= (1 :: Int)]
 
+{-callCq ::-}
+
 -- | Throws 'RpcError' exception on 'StatusCodeException'
 call :: ( ToJSON a
         , FromJSON b
@@ -73,26 +76,26 @@ call :: ( ToJSON a
      -> IO b     -- ^ The result that was returned
 call client method params =
   let command = object [ "jsonrpc" .= T.pack "2.0"
-                       , "method"  .= T.pack method
-                       , "params"  .= params
-                       , "id"      .= (1 :: Int)]
+                         , "method"  .= T.pack method
+                         , "params"  .= params
+                         , "id"      .= (1 :: Int)]
 
       call' = do
         rE <- E.try $ W.asJSON =<< WS.postWith
-                (C.clientOpts client)
-                (C.clientSession client)
-                (C.clientUrl client)
-                command
+              (C.clientOpts client)
+              (C.clientSession client)
+              (C.clientUrl client)
+              command
         case rE of
           Right r -> return (r ^. W.responseBody)
           Left ex -> E.throwM (ex :: HttpException)
 
-  in do
-    res <- call'
+        in do
+          res <- call'
 
-    case res of
-     (RpcResultError err) -> E.throwM err
-     (RpcResultOk obj) -> return obj
+          case res of
+            (RpcResultError err) -> E.throwM err
+            (RpcResultOk obj) -> return obj
 
 -- | Same as 'call' but return Nothing on not found, and Just on found
 callMaybe :: ( ToJSON a

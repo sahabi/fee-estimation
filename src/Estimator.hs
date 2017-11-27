@@ -5,6 +5,7 @@ import Test
 import qualified Types as T
 import Block as B
 import MemPool
+
 -- | from the list of txs of the current mempool and the latest 
 --   block generate a list of confirmed transactions
 getConfTx :: B.Block -> T.RawMemPool -> T.RawMemPool

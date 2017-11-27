@@ -4,6 +4,7 @@ module Block where
 
 import qualified Interface                 as I
 import qualified Client                    as C
+import qualified ChainQuery                as CQ
 import qualified Types                     as T 
 import Data.Aeson.Types                    (FromJSON, emptyArray)
 import GHC.Generics

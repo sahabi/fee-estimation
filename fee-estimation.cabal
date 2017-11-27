@@ -30,7 +30,7 @@ executable fee-estimation-exe
                      , servant-client
                      , aeson
                      , postgresql-simple
-
+                     , opaleye
   default-language:    Haskell2010
 
 test-suite fee-estimation-test

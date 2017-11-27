@@ -10,6 +10,8 @@ import Data.Aeson
 import Data.Aeson.Types
 import GHC.Generics
 import Data.HashMap.Strict
+import Database.PostgreSQL.Simple
+import Database.PostgreSQL.Simple.FromRow
 
 type Satoshi = Integer 
 
@@ -44,7 +46,10 @@ data TxEntry = TxEntry
         , time :: UnixTime
         , height :: Height
         , rate :: BTC
-        } deriving Show
+        } deriving (Show)
+
+instance FromRow TxEntry where
+    fromRow = TxEntry <$> field <*> field <*> field <*> field <*> field <*> field  
 
 type RawMemPool = [TxEntry]
 

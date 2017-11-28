@@ -13,16 +13,16 @@ while not enough data points
 
 RPC command: getrawmempool
 parameters: Format (true)
-1. create RawMempool type (done)
-2. create functions to retrieve the current mempool (done)
-3. create function to retrieve the latest block (done)
-4. from the mempool create a list of unconfirmed transactions (done)
-5. from the mempool and the latest block create a list of confired transactions (done)
-6. function: from the list of txs in the mempool and the latest block filter the list (done)
-7. store two lists of transactions in a database:
-    1- the list of unconfirmed transactions, their fees and their height (done)
-    2- list of transactions included in the blockchain, their fees, height entered mempool, height entered blockchain and delta heights. (done)
-8. function: retrieve unconfirmed transactions from db (done)
-9. function: retrieve confirmed transactions from db (done)
-10. function: confirmed transactions -> Buckets
-11. function: update unconfirmed transaction in db
+- [x] Type: RawMempool
+- [x] Function: retrieve the current mempool 
+- [x] Function: retrieve the latest block 
+- [x] Function: from the mempool create a list of unconfirmed transactions 
+- [x] Function: from the mempool and the latest block create a list of confired transactions 
+- [x] Function: from the list of txs in the mempool and the latest block filter the list 
+- [x] Functions: store two lists of transactions in a database:
+    - [x] the list of unconfirmed transactions, their fees and their height 
+    - [x] list of transactions included in the blockchain, their fees, height entered mempool, height entered blockchain and delta heights. 
+- [x] Function: retrieve unconfirmed transactions from db
+- [x] Function: retrieve confirmed transactions from db 
+- [] function: confirmed transactions -> Buckets
+- [] function: update unconfirmed transaction in db

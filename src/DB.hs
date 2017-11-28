@@ -10,7 +10,7 @@ module DB where
 import Opaleye                              (Column, Nullable, matchNullable, isNull,
                                               Table(Table), required, queryTable,
                                               Query, QueryArr, restrict, (.==), (.<=), (.&&), (.<),
-                                              (.===), runInsertMany, runDelete, 
+                                              (.===), runInsertMany, runDelete,
                                               (.++), ifThenElse, pgString, aggregate, groupBy,
                                               count, avg, sum, leftJoin, runQuery,
                                               showSqlForPostgres, Unpackspec,
@@ -23,7 +23,7 @@ import Prelude hiding                       (sum)
 import qualified Opaleye.PGTypes            as P
 import qualified Database.PostgreSQL.Simple as PGS
 
-data UnconfTx = UnconfTx 
+data UnconfTx = UnconfTx
             { txid :: T.TxID
             , rate :: T.BTC
             , height :: T.Height
@@ -44,33 +44,33 @@ unconfTxQuery = queryTable unconfTxTable
 
 queryUnconfTx :: IO [UnconfTx]
 queryUnconfTx = do {
-        con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"} 
+        con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"}
       ; res <- runQuery con unconfTxQuery
-      ; return (fmap toUnconfTx res) 
+      ; return (fmap toUnconfTx res)
       }
 tqueryUnconfTx :: IO [ (T.TxID, T.BTC, T.Height)]
 tqueryUnconfTx = do {
-        con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"} 
+        con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"}
       ; res <- runQuery con unconfTxQuery
-      ; return (res) 
+      ; return (res)
       }
 
 
-insertUnconfTx :: String 
-               -> Column PGFloat8 
-               -> Column PGInt4 
-               -> IO Int64 
-insertUnconfTx txid rate h = do { 
-           con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"} 
-         ; runInsertMany con unconfTxTable (return (P.pgString txid, rate, h))
-         }
+insertUnconfTx :: String
+               -> Column PGFloat8
+               -> Column PGInt4
+               -> IO Int64
+insertUnconfTx txid rate h = do {
+                                con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"}
+                                ; runInsertMany con unconfTxTable (return (P.pgString txid, rate, h))
+                                }
 
 data ConfTx = ConfTx { txid :: T.TxID
-                       , rate :: T.BTC
-                       , mheight :: T.Height
-                       , bheight :: T.Height
-                       , dheight :: T.Height
-                       } deriving (Show)
+                     , rate :: T.BTC
+                     , mheight :: T.Height
+                     , bheight :: T.Height
+                     , dheight :: T.Height
+                     } deriving (Show)
 
 toConfTx :: (String, Double, Int, Int, Int) -> ConfTx
 toConfTx (s,d,i,ii,iii) = ConfTx s d i ii iii
@@ -90,21 +90,21 @@ confTxQuery = queryTable confTxTable
 
 queryConfTx :: IO [ConfTx]
 queryConfTx = do {
-        con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"} 
-      ; res <- runQuery con confTxQuery
-      ; return (fmap toConfTx res) 
-      }
+                 con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"}
+                 ; res <- runQuery con confTxQuery
+                 ; return (fmap toConfTx res)
+                 }
 
-insertConfTx :: String 
-             -> Column PGFloat8 
-             -> Column PGInt4 
-             -> Column PGInt4 
-             -> Column PGInt4 
-             -> IO Int64 
-insertConfTx txid rate mh bh dh= do { 
-           con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"} 
-         ; runInsertMany con confTxTable (return (P.pgString txid, rate, mh, bh, dh))
-         }
+insertConfTx :: String
+             -> Column PGFloat8
+             -> Column PGInt4
+             -> Column PGInt4
+             -> Column PGInt4
+             -> IO Int64
+insertConfTx txid rate mh bh dh = do {
+                                     con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"}
+                                     ; runInsertMany con confTxTable (return (P.pgString txid, rate, mh, bh, dh))
+                                     }
 
 
 printSql :: Default Unpackspec a a => Query a -> IO ()

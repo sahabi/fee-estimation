@@ -23,12 +23,13 @@ import Prelude hiding                       (sum)
 import qualified Opaleye.PGTypes            as P
 import qualified Database.PostgreSQL.Simple as PGS
 
-data UnconfTx = UnconfTx { txid :: String
-                         , rate :: Double
-                         , height :: Int
-                         } deriving (Show)
+data UnconfTx = UnconfTx 
+            { txid :: T.TxID
+            , rate :: T.BTC
+            , height :: T.Height
+            } deriving (Show)
 
-toUnconfTx :: (String, Double, Int) -> UnconfTx
+toUnconfTx :: (T.TxID, T.BTC, T.Height) -> UnconfTx
 toUnconfTx (s,d,i) = UnconfTx s d i
 
 
@@ -47,7 +48,7 @@ queryUnconfTx = do {
       ; res <- runQuery con unconfTxQuery
       ; return (fmap toUnconfTx res) 
       }
-tqueryUnconfTx :: IO [ (String, Double, Int)]
+tqueryUnconfTx :: IO [ (T.TxID, T.BTC, T.Height)]
 tqueryUnconfTx = do {
         con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"} 
       ; res <- runQuery con unconfTxQuery
@@ -64,11 +65,11 @@ insertUnconfTx txid rate h = do {
          ; runInsertMany con unconfTxTable (return (P.pgString txid, rate, h))
          }
 
-data ConfTx = ConfTx { txid :: String
-                       , rate :: Double
-                       , mheight :: Int
-                       , bheight :: Int
-                       , dheight :: Int
+data ConfTx = ConfTx { txid :: T.TxID
+                       , rate :: T.BTC
+                       , mheight :: T.Height
+                       , bheight :: T.Height
+                       , dheight :: T.Height
                        } deriving (Show)
 
 toConfTx :: (String, Double, Int, Int, Int) -> ConfTx

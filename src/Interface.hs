@@ -19,7 +19,6 @@ import qualified Data.HashMap.Strict       as HM
 import qualified Data.ByteString.Lazy      as BL
 import qualified Data.Text                 as T
 import qualified Client as C
-import qualified ChainQuery as CQ
 
 data RpcResult a = RpcResultError RpcError
                  | RpcResultOk a

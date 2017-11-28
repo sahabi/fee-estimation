@@ -13,17 +13,17 @@ import Data.HashMap.Strict
 import Database.PostgreSQL.Simple
 import Database.PostgreSQL.Simple.FromRow
 
-type Satoshi = Integer 
+type Satoshi = Int 
 
-type Height = Integer
+type Height = Int
 
 type FeeRate = Satoshi
 
 type TxID = String
 
-type Bytes = Integer
+type Bytes = Int
 
-type BTC = Float
+type BTC = Double 
 
 type UnixTime = Integer
 
@@ -51,7 +51,6 @@ data TxEntry = TxEntry
 instance FromRow TxEntry where
     fromRow = TxEntry <$> field <*> field <*> field <*> field <*> field <*> field  
 
-type RawMemPool = [TxEntry]
 
 parseTxEntry :: (String, Value) -> Parser TxEntry_
 parseTxEntry (i, v) =

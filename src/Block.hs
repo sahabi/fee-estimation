@@ -4,7 +4,7 @@ module Block where
 
 import qualified Interface                 as I
 import qualified Client                    as C
-import qualified ChainQuery                as CQ
+import qualified RPC                       as R
 import qualified Types                     as T 
 import Data.Aeson.Types                    (FromJSON, emptyArray)
 import GHC.Generics
@@ -29,10 +29,10 @@ getBlock hash client =
 -- |
 getBestBlock_ :: C.Client -> IO Block
 getBestBlock_ client = 
-  ((flip (:)) []) <$> C.client getBestBlockHash 
+  ((flip (:)) []) <$> R.client getBestBlockHash 
   >>= I.call client "getblock"  
 
 getBestBlock :: IO Block
-getBestBlock = C.client getBestBlock_
+getBestBlock = R.client getBestBlock_
 
 

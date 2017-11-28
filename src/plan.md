@@ -24,5 +24,5 @@ parameters: Format (true)
     - [x] list of transactions included in the blockchain, their fees, height entered mempool, height entered blockchain and delta heights. 
 - [x] Function: retrieve unconfirmed transactions from db
 - [x] Function: retrieve confirmed transactions from db 
-- [] function: confirmed transactions -> Buckets
-- [] function: update unconfirmed transaction in db
+- [ ] function: confirmed transactions -> Buckets
+- [ ] function: update unconfirmed transaction in db

@@ -27,7 +27,7 @@ To achieve the above objective, we return the lowest fee rate that will with hig
 
 - [ ] build the bucket creation and update process
 
-      - [x] Function: retrieve confirmed txs from db 
+  - [x] Function: retrieve confirmed txs from db 
       - [ ] Function: confirmed txs -> Buckets
       - [ ] Function: update unconfirmed txn in db
 

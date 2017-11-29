@@ -1,28 +1,37 @@
-we want to find the fee rate that you should use to in order for your tx to be included in the blockchain within a given target number of blocks.
+### Objective
 
-to achieve this we return the lowest fee rate that will with high probability (%95) achieves the objective.
+We want to find the fee rate that you should use to in order for your tx to be included in the blockchain within a given target number of blocks.
 
-Buckets creation process:
+### Development Plan
 
-while not enough data points
-1- get all current unconfirmed transactions in the mempool
-2- update the DB table of unconfirmed transactions
-3- get the next block
-4- update the DB tables of unconfirmed transactions and confirmed transactions by checking the block
+To achieve the above objective, we return the lowest fee rate that will with high probability (%95) achieves the objective.
+
+- [ ] build a daemon for running the db update process for unconfirmed and confirmed txs:
+  
+      Algorithim:
+
+        forever:
+            1. - [ ] get all current unconfirmed txs in the mempool
+                  - [x] Function: retrieve the current mempool     
+            2. - [ ] update the unconfirmed txs in db
+                  - [x] Function: from the mempool create unconfirmed txs
+                  - [x] Function: write new unconfirmed txs to db
+            3. - [ ] fetch unconfirmed txs from db
+                  - [x] Function: retrieve unconfirmed txs from db
+            4. - [ ] get the next block
+                  - [x] Function: retrieve the latest block 
+            5. - [ ] update db for unconfirmed and confirmed txs by checking txs in block
+                  - [x] Function: from the mempool and the latest block create a list of confirmed txs 
+                  - [x] Functions: write list of confirmed txs to db. 
+            6. - [ ] wait for 5 minutes
+
+- [ ] build the bucket creation and update process
+
+      - [x] Function: retrieve confirmed txs from db 
+      - [ ] Function: confirmed txs -> Buckets
+      - [ ] Function: update unconfirmed txn in db
 
 
-RPC command: getrawmempool
-parameters: Format (true)
-- [x] Type: RawMempool
-- [x] Function: retrieve the current mempool 
-- [x] Function: retrieve the latest block 
-- [x] Function: from the mempool create a list of unconfirmed transactions 
-- [x] Function: from the mempool and the latest block create a list of confired transactions 
-- [x] Function: from the list of txs in the mempool and the latest block filter the list 
-- [x] Functions: store two lists of transactions in a database:
-    - [x] the list of unconfirmed transactions, their fees and their height 
-    - [x] list of transactions included in the blockchain, their fees, height entered mempool, height entered blockchain and delta heights. 
-- [x] Function: retrieve unconfirmed transactions from db
-- [x] Function: retrieve confirmed transactions from db 
-- [ ] Function: confirmed transactions -> Buckets
-- [ ] Function: update unconfirmed transaction in db
+
+
+### Testing Plan

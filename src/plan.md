@@ -8,22 +8,20 @@ To achieve the above objective, we return the lowest fee rate that will with hig
 
 - [ ] build a daemon for running the db update process for unconfirmed and confirmed txs:
   
-  Algorithim:
-
     forever:
-      1. - [ ] get all current unconfirmed txs in the mempool
-           - [x] Function: retrieve the current mempool     
-      2. - [ ] update the unconfirmed txs in db
-           - [x] Function: from the mempool create unconfirmed txs
-           - [x] Function: write new unconfirmed txs to db
-      3. - [ ] fetch unconfirmed txs from db
-           - [x] Function: retrieve unconfirmed txs from db
-      4. - [ ] get the next block
-           - [x] Function: retrieve the latest block 
-      5. - [ ] update db for unconfirmed and confirmed txs by checking txs in block
-           - [x] Function: from the mempool and the latest block create a list of confirmed txs 
-           - [x] Functions: write list of confirmed txs to db. 
-      6. - [ ] wait for 5 minutes
+      - [ ] get all current unconfirmed txs in the mempool
+        - [x] Function: retrieve the current mempool     
+      - [ ] update the unconfirmed txs in db
+        - [x] Function: from the mempool create unconfirmed txs
+        - [x] Function: write new unconfirmed txs to db
+      - [ ] fetch unconfirmed txs from db
+        - [x] Function: retrieve unconfirmed txs from db
+      - [ ] get the next block
+        - [x] Function: retrieve the latest block 
+      - [ ] update db for unconfirmed and confirmed txs by checking txs in block
+        - [x] Function: from the mempool and the latest block create a list of confirmed txs 
+        - [x] Functions: write list of confirmed txs to db. 
+      - [ ] wait for 5 minutes
 
 - [ ] build the bucket creation and update process
 

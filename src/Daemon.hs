@@ -14,8 +14,8 @@ main :: IO ()
 main = do
     ensureDaemonRunning "addOne" def addOne
     memp        <- M.getRawMemPool
-    writeUnconf <- DB.insertUnconfTx (M.rawMem2UnconfTx memp)
     fetchUnconf <- DB.queryUnconfTx
+    writeUnconf <- DB.insertUnconfTx (M.rawMem2UnconfTx memp)
     block       <- B.getBestBlock
     writeConf   <- DB.insertConfTx (M.rawMem2ConfTx memp block)
 

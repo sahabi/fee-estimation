@@ -16,6 +16,7 @@ updateUnconfTx = do
     memp        <- M.getRawMemPool
     dbUnconf    <- DB.queryUnconfTx
     res <- DB.insertUnconfTx  ( ((M.rawMem2UnconfTx 500 memp)) \\ dbUnconf)
+    putStrLn "updated unconfirmed transactions"
     print res
 
 updateConfTx :: IO ()
@@ -24,6 +25,7 @@ updateConfTx = do
     block       <- B.getBestBlock
     dbConf      <- DB.queryConfTx
     res         <- DB.insertConfTx $ ((Tx.unconf2ConfTx dbUnconf block) \\ dbConf)
+    putStrLn "updated confirmed transactions."
     print res
 
 main = do rconn <- R.connect R.defaultConnectInfo
@@ -31,5 +33,5 @@ main = do rconn <- R.connect R.defaultConnectInfo
           addTask scheduler (Te.pack "update-unconftx") (Every (Seconds 3600)) (updateUnconfTx)
           addTask scheduler (Te.pack "update-conftx") (Every (Seconds 400)) (updateConfTx)
           forkIO (run scheduler)
-          --forkIO (run scheduler)
+          forkIO (run scheduler)
           forever (threadDelay 1000000)

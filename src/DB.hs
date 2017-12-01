@@ -25,10 +25,10 @@ import qualified Database.PostgreSQL.Simple as PGS
 import qualified Block                      as B
 
 data UnconfTx = UnconfTx
-            { uctxid :: T.TxID
-            , ucrate :: T.BTC
-            , ucheight :: T.Height
-            } deriving (Show, Eq)
+  { uctxid :: T.TxID
+    , ucrate :: T.BTC
+    , ucheight :: T.Height
+  } deriving (Show, Eq)
 isConf :: B.Block -> UnconfTx -> Bool
 isConf b tx = (uctxid tx) `elem` (B.tx b)
 
@@ -39,18 +39,18 @@ toUnconfTx (s,d,i) = UnconfTx s d i
 unconfTxTable :: Table (Column PGText, Column PGFloat8, Column PGInt4)
                      (Column PGText, Column PGFloat8, Column PGInt4)
 unconfTxTable = Table "unconftxtable" (p3 ( required "txid"
-                                      , required "rate"
-                                      , required "height" ))
+  , required "rate"
+  , required "height" ))
 
 unconfTxQuery :: Query (Column PGText, Column PGFloat8, Column PGInt4)
 unconfTxQuery = queryTable unconfTxTable
 
 queryUnconfTx :: IO [UnconfTx]
 queryUnconfTx = do {
-        con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"}
+                   con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"}
       ; res <- runQuery con unconfTxQuery
       ; return (fmap toUnconfTx res)
-      }
+                   }
 tqueryUnconfTx :: IO [ (T.TxID, T.BTC, T.Height)]
 tqueryUnconfTx = do {
         con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"}
@@ -73,7 +73,7 @@ data ConfTx = ConfTx { ctxid :: T.TxID
                      , cmheight :: T.Height
                      , cbheight :: T.Height
                      , cdheight :: T.Height
-                     } deriving (Show)
+                     } deriving (Show, Eq)
 
 toConfTx :: (String, Double, Int, Int, Int) -> ConfTx
 toConfTx (s,d,i,ii,iii) = ConfTx s d i ii iii

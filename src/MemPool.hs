@@ -42,8 +42,8 @@ rawMem2ConfTx :: RawMemPool -> B.Block -> [DB.ConfTx]
 rawMem2ConfTx rm b = map (txEntry2ConfTx b) ctx where
     ctx = filter (isConf b) rm
 
-rawMem2UnconfTx :: RawMemPool -> [DB.UnconfTx]
-rawMem2UnconfTx rm = fmap txEntry2UnconfTx rm
+rawMem2UnconfTx :: Int -> RawMemPool -> [DB.UnconfTx]
+rawMem2UnconfTx i rm = fmap txEntry2UnconfTx (take i rm)
 
 getMemPoolCount :: RawMemPool -> Int
-getMemPoolCount = fmap length $ rawMem2UnconfTx
+getMemPoolCount = fmap length $ rawMem2UnconfTx 100000

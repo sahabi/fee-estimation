@@ -22,12 +22,15 @@ import Types                                as T
 import Prelude hiding                       (sum)
 import qualified Opaleye.PGTypes            as P
 import qualified Database.PostgreSQL.Simple as PGS
+import qualified Block                      as B
 
 data UnconfTx = UnconfTx
             { uctxid :: T.TxID
             , ucrate :: T.BTC
             , ucheight :: T.Height
-            } deriving (Show)
+            } deriving (Show, Eq)
+isConf :: B.Block -> UnconfTx -> Bool
+isConf b tx = (uctxid tx) `elem` (B.tx b)
 
 toUnconfTx :: (T.TxID, T.BTC, T.Height) -> UnconfTx
 toUnconfTx (s,d,i) = UnconfTx s d i

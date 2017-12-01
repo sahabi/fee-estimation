@@ -6,7 +6,20 @@ We want to find the fee rate that you should use to in order for your tx to be i
 
 To achieve the above objective, we return the lowest fee rate that will with high probability (%95) achieves the objective.
 
-- [ ] build a priodic process for updating the db for unconfirmed and confirmed txs:
+- [x] build a priodic process for updating the confirmed txs db table:
+  
+  forever:
+  - [x] fetch unconfirmed txs from db
+    - [x] Function: retrieve unconfirmed txs from db
+  - [x] get the next block
+    - [x] Function: retrieve the latest block 
+  - [x] update db for unconfirmed txs by checking txs in block
+    - [x] Function: from the mempool and the latest block create a list of confirmed txs 
+    - [x] Functions: write list of confirmed txs to db. 
+  - [x] wait for 5 minutes
+
+
+- [x] build a priodic process for updating the unconfirmed txs db table:
   
   forever:
   - [x] get all current unconfirmed txs in the mempool
@@ -14,22 +27,15 @@ To achieve the above objective, we return the lowest fee rate that will with hig
   - [x] update the unconfirmed txs in db
     - [x] Function: from the mempool create unconfirmed txs
     - [x] Function: write new unconfirmed txs to db
-  - [x] fetch unconfirmed txs from db
-    - [x] Function: retrieve unconfirmed txs from db
-  - [x] get the next block
-    - [x] Function: retrieve the latest block 
-  - [ ] update db for unconfirmed txs by checking txs in block
-    - [x] Function: from the mempool and the latest block create a list of confirmed txs 
-    - [x] Functions: write list of confirmed txs to db. 
-  - [ ] wait for 5 minutes
 
-- [ ] build the bucket creation and update process
+- [ ] build a priodic process for updating the buckets db table
 
-  - [x] Function: retrieve confirmed txs from db 
-  - [ ] Function: confirmed txs -> Buckets
-  - [ ] Function: update unconfirmed txn in db
+  - [x] Function: retrieve the lastest confirmed txs from db 
+  - [ ] Function: latest confirmed txs -> current buckets -> new buckets
 
 - [ ] build the estimation algorithm
+  
+  - [ ] Function: target -> buckets -> fee
 
 - [ ] build the ui
 

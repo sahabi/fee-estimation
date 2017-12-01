@@ -13,7 +13,7 @@ import Data.HashMap.Strict
 import Database.PostgreSQL.Simple
 import Database.PostgreSQL.Simple.FromRow
 
-type Satoshi = Int 
+type Satoshi = Int
 
 type Height = Int
 
@@ -23,14 +23,14 @@ type TxID = String
 
 type Bytes = Int
 
-type BTC = Double 
+type BTC = Double
 
 type UnixTime = Integer
 
 data TxEntry_ = TxEntry_
-        { txid_ :: TxID  
-        , txsize_ :: Bytes 
-        , modifiedfee_ :: BTC 
+        { txid_ :: TxID
+        , txsize_ :: Bytes
+        , modifiedfee_ :: BTC
         , time_ :: UnixTime
         , height_ :: Height
         } deriving Show
@@ -40,22 +40,22 @@ instance FromJSON [TxEntry_] where
     parseJSON x >>= mapM parseTxEntry . toList
 
 data TxEntry = TxEntry
-        { txid :: TxID  
-        , txsize :: Bytes 
-        , fee :: BTC 
+        { txid :: TxID
+        , txsize :: Bytes
+        , fee :: BTC
         , time :: UnixTime
         , height :: Height
         , rate :: BTC
         } deriving (Show)
 
 instance FromRow TxEntry where
-    fromRow = TxEntry <$> field <*> field <*> field <*> field <*> field <*> field  
+    fromRow = TxEntry <$> field <*> field <*> field <*> field <*> field <*> field
 
 
 parseTxEntry :: (String, Value) -> Parser TxEntry_
 parseTxEntry (i, v) =
-  withObject "entry body"  (\ o -> 
-    TxEntry_ i <$> o .: "size" 
+  withObject "entry body"  (\ o ->
+    TxEntry_ i <$> o .: "size"
     <*> o .: "modifiedfee"
     <*> o .: "time"
     <*> o .: "height")
@@ -71,8 +71,8 @@ newtype Counters = Counters [Counter] deriving (Show)
 type Hash = String
 
 data Counter = Counter { target  :: Height
-                       , confAvg :: Float 
-                       , txCtAvg :: Float     
+                       , confAvg :: Float
+                       , txCtAvg :: Float
                        } deriving (Show, Generic)
 
 

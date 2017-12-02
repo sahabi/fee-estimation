@@ -28,7 +28,11 @@ data UnconfTx = UnconfTx
   { uctxid :: T.TxID
     , ucrate :: T.BTC
     , ucheight :: T.Height
-  } deriving (Show, Eq)
+  } deriving (Show)
+
+instance Eq UnconfTx where
+  x == y = (uctxid x) == (uctxid y)
+
 isConf :: B.Block -> UnconfTx -> Bool
 isConf b tx = (uctxid tx) `elem` (B.tx b)
 
@@ -73,7 +77,10 @@ data ConfTx = ConfTx { ctxid :: T.TxID
                      , cmheight :: T.Height
                      , cbheight :: T.Height
                      , cdheight :: T.Height
-                     } deriving (Show, Eq)
+                     } deriving (Show)
+
+instance Eq ConfTx where
+  x == y = (ctxid x) == (ctxid y)
 
 toConfTx :: (String, Double, Int, Int, Int) -> ConfTx
 toConfTx (s,d,i,ii,iii) = ConfTx s d i ii iii

@@ -2,3 +2,5 @@
 *.o
 *.stack*
 *.rdb
+redis*
+*redis*

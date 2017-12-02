@@ -13,6 +13,7 @@ import qualified Data.Text               as Te
 
 updateUnconfTx :: IO ()
 updateUnconfTx = do
+    putStrLn "updating unconfirmed transactions"
     memp        <- M.getRawMemPool
     dbUnconf    <- DB.queryUnconfTx
     res <- DB.insertUnconfTx  ( ((M.rawMem2UnconfTx 500 memp)) \\ dbUnconf)
@@ -21,6 +22,7 @@ updateUnconfTx = do
 
 updateConfTx :: IO ()
 updateConfTx = do
+    putStrLn "updating confirmed transactions."
     dbUnconf    <- DB.queryUnconfTx
     block       <- B.getBestBlock
     dbConf      <- DB.queryConfTx

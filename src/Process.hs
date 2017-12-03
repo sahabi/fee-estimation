@@ -30,10 +30,32 @@ updateConfTx = do
     putStrLn "updated confirmed transactions."
     print res
 
+updateBuckets :: IO ()
+updateBuckets = do
+  putStrLn "updating buckets"
+  block <- B.getBestBlock
+  pastblock <- DB.queryPastBlock
+  case pastblock == block of
+    True -> addNewUnconf
+    False ->  updateBuckets_ block
+
+updateBuckets_ :: Block -> IO ()
+updateBuckets_ block = do
+  putStrLn "now block found!"
+  unconfTx__ <- DB.queryUnconfTx
+  memTx <- getMemPool
+  let unconfTx_ = unconfTx \\ block
+  let unconfTx = intersect unconfTx_ memTx
+  let confTx = intersect unconfTx__ block
+      updateBuckets__ confTx unconfTx
+
+
+
+
 main = do rconn <- R.connect R.defaultConnectInfo
           scheduler <- create (Name $ Te.pack "default") rconn (CheckInterval (Seconds 60)) (LockTimeout (Seconds 600)) (T.putStrLn)
           addTask scheduler (Te.pack "update-unconftx") (Every (Seconds 3600)) (updateUnconfTx)
-          addTask scheduler (Te.pack "update-conftx") (Every (Seconds 400)) (updateConfTx)
+          --addTask scheduler (Te.pack "update-conftx") (Every (Seconds 400)) (updateConfTx)
           forkIO (run scheduler)
           forkIO (run scheduler)
           forever (threadDelay 1000000)

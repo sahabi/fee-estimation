@@ -72,6 +72,12 @@ insertUnconfTx uc = do {
                        , P.pgDouble $ ucrate x
                        , P.pgInt4 $ ucheight x ) | x <- uc]
                         }
+deleteUnconfTx :: IO Int64
+deleteUnconfTx = do {
+                        con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"}
+                        ; runDelete con unconfTxTable (\_ -> P.pgBool True)
+                       }
+
 
 data ConfTx = ConfTx { ctxid :: T.TxID
                      , crate :: T.BTC
@@ -118,6 +124,12 @@ insertConfTx c = do {
                      , P.pgInt4 $ cbheight x
                      , P.pgInt4 $ cdheight x) | x <- c]
                      }
+
+deleteConfTx :: IO Int64
+deleteConfTx = do {
+                        con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"}
+                        ; runDelete con confTxTable (\_ -> P.pgBool True)
+                       }
 
 
 bucketTable :: Table (Column PGInt4, Column PGFloat8, Column PGFloat8)

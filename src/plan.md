@@ -44,3 +44,6 @@ To achieve the above objective, we return the lowest fee rate that will with hig
 
 
 ### Testing Plan
+
+- [ ] Make sure the inserting confirmed tx do not duplicate
+- [ ] Make sure the inserting unconfirmed tx do not duplicate

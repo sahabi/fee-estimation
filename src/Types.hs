@@ -76,10 +76,6 @@ data Counter = Counter { target  :: Height
                        } deriving (Show, Generic)
 
 
-data Bucket = Bucket { feeRange :: FeeRange
-                     , counters :: Counters
-                     } deriving (Show, Generic)
-
 data FeeRange = FeeRange { min :: BTC
                          , max :: BTC
                          } deriving (Show, Generic)

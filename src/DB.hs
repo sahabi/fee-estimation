@@ -23,6 +23,7 @@ import Prelude hiding                       (sum)
 import qualified Opaleye.PGTypes            as P
 import qualified Database.PostgreSQL.Simple as PGS
 import qualified Block                      as B
+import Bucket
 
 data UnconfTx = UnconfTx
   { uctxid :: T.TxID
@@ -83,7 +84,7 @@ instance Eq ConfTx where
   x == y = (ctxid x) == (ctxid y)
 
 toConfTx :: (String, Double, Int, Int, Int) -> ConfTx
-toConfTx (s,d,i,ii,iii) = ConfTx s d i ii iii
+toConfTx (txid,rate,mh,bh,dh) = ConfTx txid rate mh bh dh
 
 confTxTable :: Table (Column PGText, Column PGFloat8, Column PGInt4, Column PGInt4, Column PGInt4)
                      (Column PGText, Column PGFloat8, Column PGInt4, Column PGInt4, Column PGInt4)
@@ -117,6 +118,37 @@ insertConfTx c = do {
                      , P.pgInt4 $ cbheight x
                      , P.pgInt4 $ cdheight x) | x <- c]
                      }
+
+
+bucketTable :: Table (Column PGInt4, Column PGFloat8, Column PGFloat8)
+                     (Column PGInt4, Column PGFloat8, Column PGFloat8)
+bucketTable = Table "buckettable" (p3 ( required "target"
+                                      , required "prob"
+                                      , required "fee"))
+
+
+bucketQuery :: Query (Column PGInt4, Column PGFloat8, Column PGFloat8)
+bucketQuery = queryTable bucketTable
+
+
+queryBucket :: IO [BucketTarget]
+queryBucket = do {
+                 con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"}
+                 ; res <- runQuery con bucketQuery
+                 ; return (fmap toBucketTarget res)
+                 }
+
+insertBucket :: Bucket
+             -> IO Int64
+
+insertBucket c = do {
+                     con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"}
+                   ; runInsertMany con bucketTable [
+                      (P.pgInt4 $ Bucket.target x
+                     , P.pgDouble $ Bucket.prob x
+                     , P.pgDouble $ Bucket.fee x) | x <- c]
+                     }
+
 
 
 printSql :: Default Unpackspec a a => Query a -> IO ()

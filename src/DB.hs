@@ -10,7 +10,7 @@ module DB where
 import Opaleye                              (Column, Nullable, matchNullable, isNull,
                                               Table(Table), required, queryTable,
                                               Query, QueryArr, restrict, (.==), (.<=), (.&&), (.<),
-                                              (.===), runInsertMany, runDelete,
+                                              (.===),  runInsertMany, runDelete,
                                               (.++), ifThenElse, pgString, aggregate, groupBy,
                                               count, avg, sum, leftJoin, runQuery,
                                               showSqlForPostgres, Unpackspec,
@@ -160,6 +160,39 @@ insertBucket c = do {
                      , P.pgDouble $ Bucket.prob x
                      , P.pgDouble $ Bucket.fee x) | x <- c]
                      }
+
+lastBlockTable :: Table (Column PGInt4)
+                        (Column PGInt4)
+
+lastBlockTable = Table "lastblocktable" ( required "height" )
+
+
+lastBlockQuery :: Query (Column PGInt4)
+lastBlockQuery = queryTable lastBlockTable
+
+queryLastBlock :: IO (Maybe T.Height)
+queryLastBlock = do
+                    con <- PGS.connect PGS.defaultConnectInfo {PGS.connectDatabase = "sahabi"}
+                    res <- runQuery con lastBlockQuery
+                    case length res of
+                      0         -> return Nothing
+                      otherwise -> return $ Just (head res ::Int)
+
+insertLastBlock :: T.Height
+                -> IO Int64
+
+insertLastBlock c = do {
+                     con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"}
+                   ; runInsertMany con lastBlockTable [P.pgInt4 c]
+                     }
+
+deleteLastBlock :: IO Int64
+deleteLastBlock = do {
+                        con <- PGS.connect PGS.defaultConnectInfo { PGS.connectDatabase = "sahabi"}
+                        ; runDelete con lastBlockTable (\_ -> P.pgBool True)
+                       }
+
+
 
 
 

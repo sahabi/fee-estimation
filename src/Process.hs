@@ -10,51 +10,44 @@ import qualified Block   as B
 import qualified Data.Text.IO            as T
 import qualified Database.Redis          as R
 import qualified Data.Text               as Te
+import qualified Types                   as Ty
 
-updateUnconfTx :: IO ()
-updateUnconfTx = do
-    putStrLn "updating unconfirmed transactions"
-    memp        <- M.getRawMemPool
-    dbUnconf    <- DB.queryUnconfTx
-    res <- DB.insertUnconfTx  ( ((M.rawMem2UnconfTx 500 memp)) \\ dbUnconf)
-    putStrLn "updated unconfirmed transactions"
-    print res
-
-updateConfTx :: IO ()
-updateConfTx = do
-    putStrLn "updating confirmed transactions."
-    dbUnconf    <- DB.queryUnconfTx
-    block       <- B.getBestBlock
-    dbConf      <- DB.queryConfTx
-    res         <- DB.insertConfTx $ ((Tx.unconf2ConfTx dbUnconf block) \\ dbConf)
-    putStrLn "updated confirmed transactions."
-    print res
+updateUnconfTx :: Ty.Height -> IO ()
+updateUnconfTx h = do
+  putStrLn $ "unconf tx: updating unconfirmed transactions from block " ++ show h
+  memp' <- M.getRawMemPool
+  let memp = filter ((>= h) . Ty.height) memp'
+  putStrLn "unconf tx: got mempool"
+  numDel <- DB.deleteUnconfTx
+  putStrLn $ "unconf tx: deleted table: " ++ show numDel
+  res <- DB.insertUnconfTx $  M.rawMem2UnconfTx 50000 memp
+  putStrLn $ "unconf tx: inserted records: " ++ show res
+  putStrLn "unconf tx: updated unconfirmed transactions"
 
 updateBuckets :: IO ()
 updateBuckets = do
-  putStrLn "updating buckets"
+  putStrLn "update buckets: updating buckets"
   block <- B.getBestBlock
-  pastblock <- DB.queryPastBlock
-  case pastblock == block of
-    True -> addNewUnconf
-    False ->  updateBuckets_ block
+  lastblock <- DB.queryLastBlock
+  case  (Just $ B.height block) > lastblock  of
+    False -> case lastblock of
+              Just a -> updateUnconfTx (a-25)
+              Nothing -> putStrLn "there's no last block!"
+    True ->  do
+      unconf <- DB.queryUnconfTx
+      numDel <- DB.deleteUnconfTx
+      putStrLn $ "buckets update: deleted unconf table: " ++ show numDel
+      updates <- updateBuckets_ block unconf
+      DB.deleteLastBlock
+      DB.insertLastBlock $ B.height block
+      putStrLn $ "done buckets update: " ++ show (B.height block)
 
-updateBuckets_ :: Block -> IO ()
-updateBuckets_ block = do
-  putStrLn "now block found!"
-  unconfTx__ <- DB.queryUnconfTx
-  memTx <- getMemPool
-  let unconfTx_ = unconfTx \\ block
-  let unconfTx = intersect unconfTx_ memTx
-  let confTx = intersect unconfTx__ block
-      updateBuckets__ confTx unconfTx
-
-
-
+updateBuckets_ :: B.Block -> [DB.UnconfTx] -> IO Int
+updateBuckets_ b unconf = return(1)
 
 main = do rconn <- R.connect R.defaultConnectInfo
           scheduler <- create (Name $ Te.pack "default") rconn (CheckInterval (Seconds 60)) (LockTimeout (Seconds 600)) (T.putStrLn)
-          addTask scheduler (Te.pack "update-unconftx") (Every (Seconds 3600)) (updateUnconfTx)
+          addTask scheduler (Te.pack "update-unconftx") (Every (Seconds 60)) (updateBuckets)
           --addTask scheduler (Te.pack "update-conftx") (Every (Seconds 400)) (updateConfTx)
           forkIO (run scheduler)
           forkIO (run scheduler)

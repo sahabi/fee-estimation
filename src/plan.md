@@ -1,47 +1,32 @@
 ### Objective
 
-We want to find the fee rate that you should use to in order for your tx to be included in the blockchain within a given target number of blocks.
+We want to find the fee rate that you should use to in order for your 
+tx to be included in the blockchain within a given target number of blocks.
 
 ### Development Plan
 
-To achieve the above objective, we return the lowest fee rate that will with high probability (%95) achieves the objective.
+To achieve the above objective, we return the lowest fee rate that will 
+with high probability (%95) achieves the objective.
 
-- [x] build a priodic process for updating the confirmed txs db table:
+- [x] build a priodic process for updating the fee buckets:
   
   forever:
-  - [x] fetch unconfirmed txs from db
-    - [x] Function: retrieve unconfirmed txs from db
-  - [x] get the next block
-    - [x] Function: retrieve the latest block 
-  - [x] update db for unconfirmed txs by checking txs in block
-    - [x] Function: from the mempool and the latest block create a list of confirmed txs 
-    - [x] Functions: write list of confirmed txs to db. 
-  - [x] wait for 5 minutes
-
-
-- [x] build a priodic process for updating the unconfirmed txs db table:
+  - [ ] fetch the height of the last checked block from the db table
+  - [ ] fetch the most recent block from RPC
+  - [ ] fetch the mempool from RPC
+  - [ ] fetch the unconfirmed tx from db table
+  - [ ] is the most recent block is heigher than the last checked block?
+    - [ ] if yes:
+      - [ ] any transaction in the unconf tx was confirmed in the most recent block?
+        - [ ] if yes: update bucket with the new confirmed transactions
+        - [ ] if no: pass
+    - [ ] if no: pass
+  - [ ] delete mempool tx db table enteries
+  - [ ] insert new mempool tx to db table
   
-  forever:
-  - [x] get all current unconfirmed txs in the mempool
-    - [x] Function: retrieve the current mempool     
-  - [x] update the unconfirmed txs in db
-    - [x] Function: from the mempool create unconfirmed txs
-    - [x] Function: write new unconfirmed txs to db
-
-- [ ] build a priodic process for updating the buckets db table
-
-  - [x] Function: retrieve the lastest confirmed txs from db 
-  - [ ] Function: latest confirmed txs -> current buckets -> new buckets
-
-- [ ] build the estimation algorithm
-  
-  - [ ] Function: target -> buckets -> fee
-
 - [ ] build the ui
 
 - [ ] deploy the website
-
-
 
 ### Testing Plan
 

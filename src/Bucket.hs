@@ -1,14 +1,28 @@
 module Bucket where
 
-data BucketTarget = BucketTarget {
-                                   target :: Int
-                                 , prob   :: Double
-                                 , fee    :: Double
-                                 }
-toBucketTarget :: (Int, Double, Double) -> BucketTarget
-toBucketTarget (target,prob,fee) = BucketTarget target prob fee
+import qualified Types as T
 
---confTxToBT :: ConfTx -> BucketTarget
---confTxToBT ctx = BucketTarget (cdheight ctx) 1.0 1.0
+data Target = Target {
+                       target :: T.Height
+                     , prob   :: Double
+                     , rate   :: T.Satoshi
+                     }
+data TargetB = TargetB { bminRange :: T.Satoshi
+                       , bmaxRange :: T.Satoshi
+                       , btotalTx :: Int
+                       , btarget :: T.Height
+                       , bprob :: Double
+                       , brate :: T.Satoshi
+                      }
+toTarget :: (Int, Double, Int) -> Target
+toTarget (target,prob,fee) = Target target prob fee
 
-type Bucket = [BucketTarget]
+toTargetB :: (Int, Int, Int, Int, Double, Int) -> TargetB
+toTargetB (min,max,tot,target,prob,rate) = TargetB min max tot target prob rate
+
+
+data Bucket = Bucket { minRange :: T.Satoshi
+                     , maxRange :: T.Satoshi
+                     , totalTx :: Int
+                     , targets :: [Target]
+                     }

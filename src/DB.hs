@@ -197,7 +197,6 @@ lastBlockTable :: Table (Column PGInt4)
 
 lastBlockTable = Table "lastblocktable" ( required "height" )
 
-
 lastBlockQuery :: Query (Column PGInt4)
 lastBlockQuery = queryTable lastBlockTable
 
